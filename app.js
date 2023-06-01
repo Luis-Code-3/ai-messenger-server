@@ -6,8 +6,9 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var messageRouter = require('./routes/messages');
+var conversationRouter = require('./routes/conversations')
 
 var app = express();
 
@@ -26,8 +27,9 @@ app.use(
     })
 );
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/messages', messageRouter);
+app.use('/conversations', conversationRouter);
 
 app.use(function(req, res, next) {
     next(createError(404));
