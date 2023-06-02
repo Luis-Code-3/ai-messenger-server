@@ -28,6 +28,10 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        tokenVersion: {
+            type: Number,
+            required: true,
+        },
         conversations: [{type: Schema.Types.ObjectId, ref: "Conversation"}],
         pinned: [{type: Schema.Types.ObjectId, ref: "Conversation"}]
 
