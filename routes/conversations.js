@@ -60,6 +60,7 @@ router.post('/delete/:conversationId' , async (req, res) => {
     // P: Both users can delete solo conversation
     // P: Only users of the conversation can delete a solo conversation
     // P: Only admin can delete group conversation
+    // P: Check if conversation exists
     // P: Must be logged in
     try {
         const deletedConversation = await Conversation.findByIdAndDelete(req.params.conversationId);
@@ -104,7 +105,7 @@ router.post('/remove-member/:conversationId', async (req, res) => {
 });
 
 router.post('/add-member/:conversationId', async (req, res) => {
-    // P: Only admin of the group can remove members
+    // P: Only admin of the group can add members
     // P: This route only applies to groups
     // P: Must be logged in
 

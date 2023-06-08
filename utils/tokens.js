@@ -37,13 +37,21 @@ const setTokens = (res, access, refresh) => {
     });
 }
 
-const verifyRefreshToken = (token, res) => {
-    return jwt.verify(token, process.env.REFRESH_SECRET, (err, user) => {
-        if (err) {
-            clearTokens(res);
-            return res.status(403).json({message: "Invalid Token"})
-        }
-    });
+const verifyRefreshToken = (token) => {
+    // return jwt.verify(token, process.env.REFRESH_SECRET, (err, user) => {
+    //     if (err) {
+    //         clearTokens(res);
+    //         return res.status(403).json({message: "Invalid Token"})
+    //     } else {
+    //         return user
+    //     }
+    // });
+    try {
+        return jwt.verify(token, process.env.REFRESH_SECRET);
+    } catch (err) {
+        err.status = 403;
+        throw err;
+    }
 }
 
 const verifyAccessToken = (token) => {

@@ -78,7 +78,7 @@ router.post('/refresh', async (req, res) => {
       return res.status(401).json({message: "Not signed in"})
     }
 
-    const current = verifyRefreshToken(token, res);
+    const current = verifyRefreshToken(token);
     const foundUser = await Users.findById(current.userId)
     .select('-_id -createdAt -updatedAt -__v -password -conversations -email -pinned -language');
 
@@ -88,8 +88,13 @@ router.post('/refresh', async (req, res) => {
     res.status(200).json({message: `Refreshing ${foundUser.username}`})
 
   } catch (err) {
-    clearTokens(res);
-    res.status(500).json({message: "Internal Server Error"})
+    if (err.status === 403) {
+      clearTokens(res);
+      res.status(403).json({message: "Invalid Token"})
+    } else {
+      clearTokens(res);
+      res.status(500).json({message: "Internal Server Error"})
+    }
   }
 });
 
